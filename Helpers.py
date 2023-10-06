@@ -13,6 +13,13 @@ class HelpingMethods:
         return rect
 
     @staticmethod
+    def positionReturner(wratio, hratio):
+        w, h = py.display.get_window_size()
+        centW = w // wratio
+        centH = h // hratio
+        return centW, centH
+
+    @staticmethod
     def imageScaler(imageo, scale):
         originalWidth, originalHeight = imageo.get_size()
         newWidth = int(originalWidth // scale)

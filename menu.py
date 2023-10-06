@@ -3,6 +3,7 @@ Will start the main menu implementation
 Give basic tetris functionality as well
 """
 from Helpers import HelpingMethods
+from Button import Button
 
 import pygame as py
 import os
@@ -19,19 +20,7 @@ size = [width, height] = [800, 1000]
 fullscreen = [widthf, heightf] = [1920, 1080]
 
 # Button creation
-font = py.font.SysFont("Arial", 20, True)
-text1 = font.render(" START ", True, "Orange")
 
-buttonPadding = 20
-newButtonDim = [text1.get_width() + buttonPadding * 2, text1.get_height() + buttonPadding * 2]
-buttonNewSurface = py.Surface(newButtonDim)
-buttonNewSurface.fill("black")
-buttonNewSurface.blit(text1, (buttonPadding, buttonPadding))
-
-newButtonOutline = py.Rect(0, 0, newButtonDim[0], newButtonDim[1])
-py.draw.rect(buttonNewSurface, "red", newButtonOutline, 1)
-
-rect1 = buttonNewSurface.get_rect(topleft=(100, 100))
 
 # List that stores tetris pieces
 tetris_pieces = []
@@ -55,6 +44,7 @@ Hratio is very high because I wanted the logo to start from
 above the screen and drop down
 '''
 positionLogo = helpers.ratioRetainer(positionLogo, 2, -100)
+
 print(f'After: {positionLogo}')
 
 # Sets tick rate for game
@@ -69,7 +59,7 @@ while running:
         if event.type == py.QUIT:
             running = False
         if event.type == py.MOUSEBUTTONDOWN:
-            if rect1.collidepoint(event.pos):
+            if start_button.rect.collidepoint(event.pos):
                 print("Button was pressed!")
         elif event.type == py.KEYDOWN:
             if event.key == py.K_ESCAPE:
@@ -79,10 +69,12 @@ while running:
 
     # Fill in the screen black, this is our background color that will not change.
     screen.fill("black")
-    screen.blit(buttonNewSurface, (100, 100))
-    py.draw.rect(screen, (255, 0, 0), rect1, 1)
 
     # Dimensions will be a ratio of screen size
+    start_button = Button(" START ", helpers.positionReturner(2, 2.5))
+    option_button = Button("OPTIONS", helpers.positionReturner(2, 2))
+    start_button.draw(screen)
+    option_button.draw(screen)
 
     if positionLogo.y < 200:
         positionLogo.y += logoVelocity
